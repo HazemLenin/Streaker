@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Streaker.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f5290703a254dc6c7e708aeecc7fdcfd8ba4b520")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dfbd37703472fd0855f537bda169a5cc87b5b022")]
 [assembly: System.Reflection.AssemblyProductAttribute("Streaker.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Streaker.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
