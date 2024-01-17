@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Streaker.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3eefd5507b82d0d95059740618698e91fd1b1834")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f5290703a254dc6c7e708aeecc7fdcfd8ba4b520")]
 [assembly: System.Reflection.AssemblyProductAttribute("Streaker.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Streaker.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
