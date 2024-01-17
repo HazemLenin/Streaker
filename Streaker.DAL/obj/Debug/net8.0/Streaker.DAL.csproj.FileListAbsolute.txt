@@ -1,0 +1,17 @@
+C:\Users\Dell\source\repos\Streaker\Streaker.DAL\bin\Debug\net8.0\Streaker.DAL.deps.json
+C:\Users\Dell\source\repos\Streaker\Streaker.DAL\bin\Debug\net8.0\Streaker.DAL.runtimeconfig.json
+C:\Users\Dell\source\repos\Streaker\Streaker.DAL\bin\Debug\net8.0\Streaker.DAL.dll
+C:\Users\Dell\source\repos\Streaker\Streaker.DAL\bin\Debug\net8.0\Streaker.DAL.pdb
+C:\Users\Dell\source\repos\Streaker\Streaker.DAL\bin\Debug\net8.0\Streaker.Core.dll
+C:\Users\Dell\source\repos\Streaker\Streaker.DAL\bin\Debug\net8.0\Streaker.Core.pdb
+C:\Users\Dell\source\repos\Streaker\Streaker.DAL\obj\Debug\net8.0\Streaker.DAL.csproj.AssemblyReference.cache
+C:\Users\Dell\source\repos\Streaker\Streaker.DAL\obj\Debug\net8.0\Streaker.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Dell\source\repos\Streaker\Streaker.DAL\obj\Debug\net8.0\Streaker.DAL.AssemblyInfoInputs.cache
+C:\Users\Dell\source\repos\Streaker\Streaker.DAL\obj\Debug\net8.0\Streaker.DAL.AssemblyInfo.cs
+C:\Users\Dell\source\repos\Streaker\Streaker.DAL\obj\Debug\net8.0\Streaker.DAL.csproj.CoreCompileInputs.cache
+C:\Users\Dell\source\repos\Streaker\Streaker.DAL\obj\Debug\net8.0\Streaker.DAL.csproj.CopyComplete
+C:\Users\Dell\source\repos\Streaker\Streaker.DAL\obj\Debug\net8.0\Streaker.DAL.dll
+C:\Users\Dell\source\repos\Streaker\Streaker.DAL\obj\Debug\net8.0\refint\Streaker.DAL.dll
+C:\Users\Dell\source\repos\Streaker\Streaker.DAL\obj\Debug\net8.0\Streaker.DAL.pdb
+C:\Users\Dell\source\repos\Streaker\Streaker.DAL\obj\Debug\net8.0\Streaker.DAL.genruntimeconfig.cache
+C:\Users\Dell\source\repos\Streaker\Streaker.DAL\obj\Debug\net8.0\ref\Streaker.DAL.dll
