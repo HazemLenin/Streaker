@@ -20,4 +20,12 @@
 	.btn.btn-secondary {
 		@apply bg-secondary text-black hover:bg-secondary-dark;
 	}
+
+	.calendar-btn {
+		@apply rounded-full hover:bg-white/50 h-10 w-10 transition-colors flex justify-center items-center;
+	}
+
+	.calendar-btn.today {
+		@apply rounded-full bg-primary h-10 w-10 transition-colors flex justify-center items-center;
+	}
 }

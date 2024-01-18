@@ -2,20 +2,22 @@
 import Modal from "./Components/Modal";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import SimpleCalendar from "./Components/SimpleCalendar";
 
 export default function Home() {
 	const [showModal, setShowModal] = useState(false);
 
 	return (
 		<div className="flex justify-center items-center h-screen">
-			<button className="btn btn-primary" onClick={() => setShowModal(true)}>
+			<SimpleCalendar />
+			{/* <button className="btn btn-primary" onClick={() => setShowModal(true)}>
 				Show Modal
 			</button>
 			<AnimatePresence mode="wait">
 				{showModal && (
 					<motion.div
 						className="fixed inset-0"
-						key="myDiv"
+						key="modal"
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						exit={{ opacity: 0 }}
@@ -33,7 +35,7 @@ export default function Home() {
 						</Modal>
 					</motion.div>
 				)}
-			</AnimatePresence>
+			</AnimatePresence> */}
 		</div>
 	);
 }
