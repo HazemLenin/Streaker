@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Streaker.DAL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+725d0c13918919c21930de3d5f55df673eb3e1e6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+edf8013e91653af3a0eab114c347b2dc8b4c3098")]
 [assembly: System.Reflection.AssemblyProductAttribute("Streaker.DAL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Streaker.DAL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
