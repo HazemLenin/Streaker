@@ -12,5 +12,7 @@ namespace Streaker.Core.Domains
         public string Name { get; set; }
         public string Description { get; set; }
         public int StreakCount { get; set; }
+        public int TargetCount { get; set; }
+        public string Category { get; set; }
     }
 }
