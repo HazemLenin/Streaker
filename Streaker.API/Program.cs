@@ -2,7 +2,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Streaker.Core.Domains;
 using Streaker.DAL.Context;
+using Streaker.DAL.Services.Auth;
+using Streaker.DAL.Services.Users;
 using Streaker.DAL.UnitOfWork;
+using Streaker.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +22,11 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 builder.Services.AddControllers();
 
+builder.Services.AddTransient<HttpExceptionMiddleware>();
+
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<IUsersService, UsersService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
