@@ -6,6 +6,9 @@ using Streaker.DAL.Services.Auth;
 using Streaker.DAL.Services.Users;
 using Streaker.DAL.UnitOfWork;
 using Streaker.API.Middlewares;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,13 +23,40 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
         options.User.RequireUniqueEmail = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddControllers();
+builder.Services
+    .AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuerSigningKey = bool.Parse(builder.Configuration["JsonWebTokenKeys:ValidateIssuerSigningKey"] ?? "false"),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JsonWebTokenKeys:IssuerSigningKey"] ?? "")),
+
+            ValidateIssuer = bool.Parse(builder.Configuration["JsonWebTokenKeys:ValidateIssuer"] ?? "false"),
+            ValidIssuer = builder.Configuration["JsonWebTokenKeys:ValidIssuer"],
+
+            ValidAudience = builder.Configuration["JsonWebTokenKeys:ValidAudience"],
+            ValidateAudience = bool.Parse(builder.Configuration["JsonWebTokenKeys:ValidateAudience"] ?? "false"),
+
+            RequireExpirationTime = bool.Parse(builder.Configuration["JsonWebTokenKeys:RequireExpirationTime"] ?? "false"),
+            ValidateLifetime = bool.Parse(builder.Configuration["JsonWebTokenKeys:ValidateLifetime"] ?? "false"),
+        };
+    });
 
 builder.Services.AddTransient<HttpExceptionMiddleware>();
 
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IUsersService, UsersService>();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
