@@ -1,4 +1,5 @@
-﻿using Streaker.DAL.Dtos.Streaks;
+﻿using Microsoft.EntityFrameworkCore;
+using Streaker.DAL.Dtos.Streaks;
 using Streaker.DAL.UnitOfWork;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,9 @@ namespace Streaker.DAL.Services.Streaks
             return await _unitOfWork.StreaksRepository.CheckExistsAsync(streakId);
         }
 
-        public Task<bool> CheckUserAuthorityAsync(string userId, string streakId)
+        public async Task<bool> CheckUserAuthorityAsync(string userId, string streakId)
         {
-            throw new NotImplementedException();
+            return await _unitOfWork.StreaksRepository.GetAll().AnyAsync(e => e.ApplicationUserId == userId && e.Id == streakId);
         }
 
         public Task<StreakDetailsDto> GetStreakDetailsAsync(string streakId)

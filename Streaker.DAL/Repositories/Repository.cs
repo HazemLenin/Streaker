@@ -21,11 +21,11 @@ namespace Streaker.DAL.Repositories
         }
 
         public IQueryable<T> GetAll(
-            Expression<Func<T, bool>> filter,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
-            int take,
-            int step,
-            string includeProperties = "")
+            Expression<Func<T, bool>>? filter,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy,
+            int? take,
+            int? step,
+            string? includeProperties = "")
         {
             IQueryable<T> query = _dbSet;
 
@@ -40,7 +40,7 @@ namespace Streaker.DAL.Repositories
                 query = orderBy(query);
 
             if (take > 0)
-                query = query.Skip((step - 1) * take).Take(take);
+                query = query.Skip((step - 1) * take ?? 0).Take(take ?? 0);
 
             return query;
         }
@@ -84,7 +84,7 @@ namespace Streaker.DAL.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async void UpdateRange(IEnumerable<T> entities)
+        public async Task UpdateRangeAsync(IEnumerable<T> entities)
         {
             foreach (var entity in entities)
                 entity.Updated = DateTime.UtcNow;
@@ -97,7 +97,7 @@ namespace Streaker.DAL.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task Delete(string id)
+        public async Task DeleteAsync(string id)
         {
             var entity = await _dbSet.FindAsync(id);
             if (entity != null)
@@ -105,7 +105,7 @@ namespace Streaker.DAL.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteRange(IEnumerable<string> ids)
+        public async Task DeleteRangeAsync(IEnumerable<string> ids)
         {
             foreach (var id in ids)
             {
@@ -114,6 +114,11 @@ namespace Streaker.DAL.Repositories
                     _dbSet.Remove(entity);
             }
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<bool> CheckExistsAsync(string id)
+        {
+            return await _dbContext.Set<T>().AnyAsync(e => e.Id == id);
         }
     }
 }

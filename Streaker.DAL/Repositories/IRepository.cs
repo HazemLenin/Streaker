@@ -9,8 +9,8 @@ namespace Streaker.DAL.Repositories
 {
     public interface IRepository<T> where T : class
     {
-        IQueryable<T> GetAll(Expression<Func<T, bool>> filter, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, int take, int step, string includeProperties = "");
-        Task<T?> GetByIdAsync(string id, string includeProperties = "");
+        IQueryable<T> GetAll(Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, int? take = 0, int? step = 0, string? includeProperties = "");
+        Task<T?> GetByIdAsync(string id, string? includeProperties = "");
         Task<string> AddAsync(T entity);
         Task AddRangeAsync(IEnumerable<T> entities);
         Task UpdateAsync(T entity);

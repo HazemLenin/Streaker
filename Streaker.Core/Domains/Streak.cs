@@ -14,5 +14,7 @@ namespace Streaker.Core.Domains
         public int StreakCount { get; set; }
         public int TargetCount { get; set; }
         public string Category { get; set; }
+        public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }
