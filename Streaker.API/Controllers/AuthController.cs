@@ -25,16 +25,16 @@ namespace Streaker.API.Controllers
             _usersService = usersService;
         }
 
-        // GET: api/auth/profile
-        [HttpGet("profile")]
+        // GET: api/Auth/Profile
+        [HttpGet("Profile")]
         [Authorize]
         public ApiResponse<UserDto> Profile() => new()
         {
             Data = _usersService.GetLoggedInUser(User)
         };
 
-        // POST: api/auth/signup
-        [HttpPost("signup")]
+        // POST: api/Auth/Signup
+        [HttpPost("Signup")]
         public async Task<ApiResponse<AuthDto>> Signup(RegisterDto registerDto)
         {
             var registerResult = await _authService.RegisterUserAsync(registerDto);
@@ -50,8 +50,8 @@ namespace Streaker.API.Controllers
             };
         }
 
-        // POST: api/auth/login
-        [HttpPost("login")]
+        // POST: api/Auth/Login
+        [HttpPost("Login")]
         public async Task<ApiResponse<AuthDto>> Login(LoginDto loginDto)
         {
             var loginResult = await _authService.GetTokenAsync(loginDto);
@@ -68,8 +68,8 @@ namespace Streaker.API.Controllers
             };
         }
 
-        // POST: api/auth/refresh
-        [HttpPost("refresh")]
+        // POST: api/Auth/Refresh
+        [HttpPost("Refresh")]
         public async Task<ApiResponse<AuthDto>> Refresh(RefreshTokenDto refreshTokenDto)
         {
             var refreshResult = await _authService.RefreshTokenAsync(refreshTokenDto);
@@ -91,8 +91,10 @@ namespace Streaker.API.Controllers
         {
             var properties = new AuthenticationProperties
             {
-                RedirectUri = Url.Action(nameof(HandleGoogleCallback)),
+                RedirectUri = Url.Action(nameof(HandleGoogleCallback))
             };
+
+            Console.WriteLine(Url.Action(nameof(HandleGoogleCallback)));
 
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }
@@ -101,6 +103,8 @@ namespace Streaker.API.Controllers
         [HttpGet("handle-google-callback")]
         public IActionResult HandleGoogleCallback()
         {
+            Console.WriteLine("callback");
+            Console.WriteLine(User.Identity.Name);
             // Handle the callback and retrieve user information
             // (You can access user information through User.Identity)
 
