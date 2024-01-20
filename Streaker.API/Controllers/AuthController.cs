@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Streaker.API.Responses;
@@ -81,6 +84,38 @@ namespace Streaker.API.Controllers
             {
                 Data = refreshResult
             };
+        }
+
+        [HttpGet("signin-google")]
+        public IActionResult SignInWithGoogle()
+        {
+            var properties = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action(nameof(HandleGoogleCallback))
+            };
+
+            Console.WriteLine(Url.Action(nameof(HandleGoogleCallback)));
+
+            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
+
+        [Authorize]
+        [HttpGet("handle-google-callback")]
+        public IActionResult HandleGoogleCallback()
+        {
+            Console.WriteLine("callback");
+            Console.WriteLine(User.Identity.Name);
+            // Handle the callback and retrieve user information
+            // (You can access user information through User.Identity)
+
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpGet("signout-google")]
+        public IActionResult SignOutGoogle()
+        {
+            return SignOut(new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme);
         }
     }
 }

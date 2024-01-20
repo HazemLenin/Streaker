@@ -18,6 +18,7 @@ namespace Streaker.DAL.Services.Users
     public class UsersService : IUsersService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMapper _mapper;
 
         public UsersService(UserManager<ApplicationUser> userManager, IMapper mapper)
         {

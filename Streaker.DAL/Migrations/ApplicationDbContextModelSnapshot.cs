@@ -265,7 +265,7 @@ namespace Streaker.DAL.Migrations
 
                     b.HasIndex("StreakId");
 
-                    b.ToTable("Commits");
+                    b.ToTable("Commits", (string)null);
                 });
 
             modelBuilder.Entity("Streaker.Core.Domains.Streak", b =>
@@ -305,7 +305,7 @@ namespace Streaker.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Streaks");
+                    b.ToTable("Streaks", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

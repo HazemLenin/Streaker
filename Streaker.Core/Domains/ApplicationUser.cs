@@ -12,7 +12,7 @@ namespace Streaker.Core.Domains
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime Deactivated { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiration { get; set; }
     }

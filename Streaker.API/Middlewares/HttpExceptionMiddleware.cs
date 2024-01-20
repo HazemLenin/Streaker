@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Streaker.API.Responses;
+using System.Net;
 
 namespace Streaker.API.Middlewares
 {
@@ -20,7 +21,7 @@ namespace Streaker.API.Middlewares
 
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-                ApiResponse<object> response = new()
+                ApiResponse response = new()
                 {
                     Errors = new()
                     {
