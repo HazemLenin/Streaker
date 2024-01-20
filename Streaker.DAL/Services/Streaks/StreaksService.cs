@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Streaker.DAL.Dtos.Streaks;
 using Streaker.DAL.UnitOfWork;
 using System;
@@ -9,9 +10,10 @@ using System.Threading.Tasks;
 
 namespace Streaker.DAL.Services.Streaks
 {
-    public class StreaksService(IUnitOfWork unitOfWork) : IStreaksService
+    public class StreaksService(IUnitOfWork unitOfWork, IMapper mapper) : IStreaksService
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<bool> CheckExistsAsync(string streakId)
         {
@@ -23,14 +25,27 @@ namespace Streaker.DAL.Services.Streaks
             return await _unitOfWork.StreaksRepository.GetAll().AnyAsync(e => e.ApplicationUserId == userId && e.Id == streakId);
         }
 
-        public Task<StreakDetailsDto> GetStreakDetailsAsync(string streakId)
+        public async Task<StreakDetailsDto> GetStreakDetailsAsync(string streakId)
         {
-            throw new NotImplementedException();
+            // TODO: Select less cols
+            var streak = await _unitOfWork.StreaksRepository.GetByIdAsync(streakId);
+            return _mapper.Map<StreakDetailsDto>(streak);
         }
 
-        public Task<IEnumerable<StreakDto>> GetUserStreaksAsync(string userId)
+        public async Task<IEnumerable<StreakDto>> GetUserStreaksAsync(string userId)
         {
-            throw new NotImplementedException();
+            var streaks = _unitOfWork.StreaksRepository.GetAll(s => s.ApplicationUserId == userId)
+                .Select(s => new StreakDto()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Category = s.Category,
+                    StreakCount = s.StreakCount,
+                    TargetCount = s.TargetCount,
+                    Created = s.Created
+                });
+
+            return await streaks.ToListAsync();
         }
     }
 }
