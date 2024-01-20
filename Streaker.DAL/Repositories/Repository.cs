@@ -45,7 +45,7 @@ namespace Streaker.DAL.Repositories
             return query;
         }
 
-        public T? GetById(string id, string includeProperties = "")
+        public async Task<T?> GetByIdAsync(string id, string includeProperties = "")
         {
             IQueryable<T> query = _dbSet;
 
@@ -53,51 +53,67 @@ namespace Streaker.DAL.Repositories
                 foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                     query = query.Include(includeProperty);
 
-            return query.FirstOrDefault(e => e.Id == id);
+            return await query.FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public string Add(T entity)
+        public async Task<string> AddAsync(T entity)
         {
-            _dbSet.Add(entity);
+            entity.Created = DateTime.UtcNow;
+
+            await _dbSet.AddAsync(entity);
+
+            await _dbContext.SaveChangesAsync();
             
-            // Assuming the entity has an ID property
             return entity.Id ?? "";
         }
 
-        public void AddRange(IEnumerable<T> entities) => _dbSet.AddRange(entities);
-
-        public void Update(T entity)
-        {
-            _dbSet.Attach(entity);
-            _dbContext.Entry(entity).State = EntityState.Modified;
-        }
-
-        public void UpdateRange(IEnumerable<T> entities)
+        public async Task AddRangeAsync(IEnumerable<T> entities)
         {
             foreach (var entity in entities)
-            {
-                _dbSet.Attach(entity);
-                _dbContext.Entry(entity).State = EntityState.Modified;
-            }
+                entity.Created = DateTime.UtcNow;
+
+            await _dbSet.AddRangeAsync(entities);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Delete(string id)
+        public async Task UpdateAsync(T entity)
         {
-            var entity = _dbSet.Find(id);
+            entity.Updated = DateTime.UtcNow;
+            _dbSet.Update(entity);
+            _dbSet.Entry(entity).Property(e => e.Created).IsModified = false;
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async void UpdateRange(IEnumerable<T> entities)
+        {
+            foreach (var entity in entities)
+                entity.Updated = DateTime.UtcNow;
+            
+            _dbSet.UpdateRange(entities);
+            
+            foreach (var entity in entities)
+                _dbSet.Entry(entity).Property(e => e.Created).IsModified = false;
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task Delete(string id)
+        {
+            var entity = await _dbSet.FindAsync(id);
             if (entity != null)
                 _dbSet.Remove(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void DeleteRange(IEnumerable<string> ids)
+        public async Task DeleteRange(IEnumerable<string> ids)
         {
             foreach (var id in ids)
             {
-                var entity = _dbSet.Find(id);
+                var entity = await _dbSet.FindAsync(id);
                 if (entity != null)
                     _dbSet.Remove(entity);
             }
+            await _dbContext.SaveChangesAsync();
         }
-
-        public int Save() => _dbContext.SaveChanges();
     }
 }

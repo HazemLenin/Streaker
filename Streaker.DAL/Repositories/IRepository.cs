@@ -10,13 +10,13 @@ namespace Streaker.DAL.Repositories
     public interface IRepository<T> where T : class
     {
         IQueryable<T> GetAll(Expression<Func<T, bool>> filter, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, int take, int step, string includeProperties = "");
-        T? GetById(string id, string includeProperties = "");
-        string Add(T entity);
-        void AddRange(IEnumerable<T> entities);
-        void Update(T entity);
-        void UpdateRange(IEnumerable<T> entities);
-        void Delete(string id);
-        void DeleteRange(IEnumerable<string> ids);
-        int Save();
+        Task<T?> GetByIdAsync(string id, string includeProperties = "");
+        Task<string> AddAsync(T entity);
+        Task AddRangeAsync(IEnumerable<T> entities);
+        Task UpdateAsync(T entity);
+        Task UpdateRangeAsync(IEnumerable<T> entities);
+        Task DeleteAsync(string id);
+        Task DeleteRangeAsync(IEnumerable<string> ids);
+        Task<bool> CheckExistsAsync(string id);
     }
 }
