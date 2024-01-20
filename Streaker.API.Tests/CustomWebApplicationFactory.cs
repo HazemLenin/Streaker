@@ -9,6 +9,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit.Sdk;
 
 namespace Streaker.API.Tests
 {
@@ -19,29 +20,26 @@ namespace Streaker.API.Tests
         {
             builder.ConfigureServices(services =>
             {
+                // Remove existing DbContext registration
                 var dbContextDescriptor = services.SingleOrDefault(
-                    d => d.ServiceType ==
-                        typeof(DbContextOptions<ApplicationDbContext>));
+                    d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
 
                 if (dbContextDescriptor != null)
                     services.Remove(dbContextDescriptor);
 
+                // Remove existing DbConnection registration
                 var dbConnectionDescriptor = services.SingleOrDefault(
-                    d => d.ServiceType ==
-                        typeof(DbConnection));
+                    d => d.ServiceType == typeof(DbConnection));
 
                 if (dbConnectionDescriptor != null)
                     services.Remove(dbConnectionDescriptor);
 
-                var serviceProvider = new ServiceCollection()
-                    .AddEntityFrameworkInMemoryDatabase()
-                    .BuildServiceProvider();
-
-                services.AddDbContext<ApplicationDbContext>((container, options) =>
+                // Add in-memory database and configure DbContext
+                services.AddDbContext<ApplicationDbContext>(options =>
                 {
                     options.UseInMemoryDatabase(new Guid().ToString());
-                    options.UseInternalServiceProvider(serviceProvider);
                 });
+
             });
 
             builder.UseEnvironment("Development");
