@@ -64,7 +64,7 @@ namespace Streaker.DAL.Services.Auth
                 FirstName = registerUserDto.FirstName,
                 LastName = registerUserDto.LastName,
                 UserName = registerUserDto.UserName,
-            });
+            }, registerUserDto.Password);
 
             if (!createUserResult.Succeeded)
                 return new()
@@ -72,18 +72,7 @@ namespace Streaker.DAL.Services.Auth
                     Errors = GetErrorsFromIdentityResult(createUserResult)
                 };
 
-            var user = await _userManager.FindByEmailAsync(registerUserDto.Email);
-
-            var addPasswordResult = await _userManager.AddPasswordAsync(user, registerUserDto.Password);
-
-            if (!addPasswordResult.Succeeded)
-            {
-                await _userManager.DeleteAsync(user);
-                return new()
-                {
-                    Errors = GetErrorsFromIdentityResult(addPasswordResult)
-                };
-            }
+            var user = await _userManager.FindByNameAsync(registerUserDto.UserName);
 
             return await GenerateUserTokens(user);
 

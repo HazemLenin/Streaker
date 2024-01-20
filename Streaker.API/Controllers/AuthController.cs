@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Streaker.API.Responses;
@@ -22,16 +25,16 @@ namespace Streaker.API.Controllers
             _usersService = usersService;
         }
 
-        // GET: api/Auth/Profile
-        [HttpGet("Profile")]
+        // GET: api/auth/profile
+        [HttpGet("profile")]
         [Authorize]
         public ApiResponse<UserDto> Profile() => new()
         {
             Data = _usersService.GetLoggedInUser(User)
         };
 
-        // POST: api/Auth/Signup
-        [HttpPost("Signup")]
+        // POST: api/auth/signup
+        [HttpPost("signup")]
         public async Task<ApiResponse<AuthDto>> Signup(RegisterDto registerDto)
         {
             var registerResult = await _authService.RegisterUserAsync(registerDto);
@@ -47,8 +50,8 @@ namespace Streaker.API.Controllers
             };
         }
 
-        // POST: api/Auth/Login
-        [HttpPost("Login")]
+        // POST: api/auth/login
+        [HttpPost("login")]
         public async Task<ApiResponse<AuthDto>> Login(LoginDto loginDto)
         {
             var loginResult = await _authService.GetTokenAsync(loginDto);
@@ -65,8 +68,8 @@ namespace Streaker.API.Controllers
             };
         }
 
-        // POST: api/Auth/Refresh
-        [HttpPost("Refresh")]
+        // POST: api/auth/refresh
+        [HttpPost("refresh")]
         public async Task<ApiResponse<AuthDto>> Refresh(RefreshTokenDto refreshTokenDto)
         {
             var refreshResult = await _authService.RefreshTokenAsync(refreshTokenDto);
@@ -81,6 +84,34 @@ namespace Streaker.API.Controllers
             {
                 Data = refreshResult
             };
+        }
+
+        [HttpGet("signin-google")]
+        public IActionResult SignInWithGoogle()
+        {
+            var properties = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action(nameof(HandleGoogleCallback)),
+            };
+
+            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
+
+        [Authorize]
+        [HttpGet("handle-google-callback")]
+        public IActionResult HandleGoogleCallback()
+        {
+            // Handle the callback and retrieve user information
+            // (You can access user information through User.Identity)
+
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpGet("signout-google")]
+        public IActionResult SignOutGoogle()
+        {
+            return SignOut(new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme);
         }
     }
 }
