@@ -68,9 +68,13 @@ namespace Streaker.API.Controllers
             };
         }
 
-        //// PUT: api/Streaks/{id}
-        //[HttpPut("{id}")]
-        //public ActionResult PutStreak() { }
+        // PUT: api/Streaks/{id}
+        [HttpPut("{id}")]
+        public async Task<ActionResult> PutStreak(string id, StreakUpdateDto streakUpdateDto)
+        {
+            await _streaksService.UpdateStreakAsync(streakUpdateDto);
+            return Created();
+        }
 
         //// DELETE: api/Streaks/{id}
         //[HttpPut("{id}")]
