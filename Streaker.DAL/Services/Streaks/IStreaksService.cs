@@ -1,4 +1,5 @@
 ﻿using Streaker.DAL.Dtos.Streaks;
+using Streaker.DAL.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Streaker.DAL.Services.Streaks
 {
     public interface IStreaksService
     {
-        Task<IEnumerable<StreakDto>> GetUserStreaksAsync(string userId);
+        Task<PaginatedList<StreakDto>> GetUserPaginatedStreaksAsync(string userId, int pageNumber, int pageSize);
         Task<string> AddStreakAsync(StreakAddDto streakAddDto, string userId);
         Task<bool> CheckUserAuthorityAsync(string userId, string streakId);
         Task<bool> CheckExistsAsync(string streakId);

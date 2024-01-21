@@ -1,4 +1,6 @@
-﻿namespace Streaker.API.Responses
+﻿using Streaker.DAL.Utilities;
+
+namespace Streaker.API.Responses
 {
     public class ApiResponse
     {
@@ -11,12 +13,13 @@
         public T? Data { get; set; }
     }
 
-    public class ApiPaginatedResponse<T> : ApiResponse<T>
+    public class ApiPaginatedResponse<T>(PaginatedList<T> paginatedData) : ApiResponse<T>
     {
-        public int PageIndex { get; set; }
-        public int TotalPages { get; set; }
-        public int TotalCount { get; set; }
-        public bool HasPrevious { get; set; }
-        public bool HasNext { get; set; }
+        public new List<T> Data { get; set; } = [.. paginatedData];
+        public int PageIndex { get; set; } = paginatedData.PageIndex;
+        public int TotalPages { get; set; } = paginatedData.TotalPages;
+        public int TotalCount { get; set; } = paginatedData.TotalCount;
+        public bool HasPrevious { get; set; } = paginatedData.HasPrevious;
+        public bool HasNext { get; set; } = paginatedData.HasNext;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Streaker.DAL.Utilities;
 using Streaker.Core.Domains;
 using Streaker.DAL.Dtos.Streaks;
 using Streaker.DAL.UnitOfWork;
@@ -43,7 +44,7 @@ namespace Streaker.DAL.Services.Streaks
             return _mapper.Map<StreakDetailsDto>(streak);
         }
 
-        public async Task<IEnumerable<StreakDto>> GetUserStreaksAsync(string userId)
+        public async Task<PaginatedList<StreakDto>> GetUserPaginatedStreaksAsync(string userId, int pageNumber, int pageSize)
         {
             var streaks = _unitOfWork.StreaksRepository.GetAll(s => s.ApplicationUserId == userId)
                 .Select(s => new StreakDto()
@@ -56,7 +57,9 @@ namespace Streaker.DAL.Services.Streaks
                     Created = s.Created
                 });
 
-            return await streaks.ToListAsync();
+            var paginatedStreaks = await PaginatedList<StreakDto>.CreateAsync(streaks, pageNumber, pageSize);
+
+            return paginatedStreaks;
         }
 
         public async Task UpdateStreakAsync(StreakUpdateDto streakUpdateDto)
