@@ -86,6 +86,7 @@ namespace Streaker.API.Controllers
             };
         }
 
+        // GET: api/Auth/signin-google
         [HttpGet("signin-google")]
         public IActionResult SignInWithGoogle()
         {
@@ -99,6 +100,7 @@ namespace Streaker.API.Controllers
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }
 
+        // GET: api/Auth/handle-google-callback
         [Authorize]
         [HttpGet("handle-google-callback")]
         public IActionResult HandleGoogleCallback()
@@ -111,6 +113,7 @@ namespace Streaker.API.Controllers
             return Ok();
         }
 
+        // GET: api/Auth/signout-google
         [Authorize]
         [HttpGet("signout-google")]
         public IActionResult SignOutGoogle()

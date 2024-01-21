@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Streaker.Core.Domains;
 using Streaker.DAL.Dtos.Streaks;
 using Streaker.DAL.UnitOfWork;
 using System;
@@ -25,6 +26,16 @@ namespace Streaker.DAL.Services.Streaks
             return await _unitOfWork.StreaksRepository.GetAll().AnyAsync(e => e.ApplicationUserId == userId && e.Id == streakId);
         }
 
+        public async Task<string> AddStreakAsync(StreakAddDto streakAddDto, string userId)
+        {
+            var streak = _mapper.Map<Streak>(streakAddDto);
+            streak.ApplicationUserId = userId;
+            await _unitOfWork.StreaksRepository.AddAsync(streak);
+            return streak.Id;
+        }
+
+        public async Task DeleteStreakAsync(string streakId) => await _unitOfWork.StreaksRepository.DeleteAsync(streakId);
+
         public async Task<StreakDetailsDto> GetStreakDetailsAsync(string streakId)
         {
             // TODO: Select less cols
@@ -46,6 +57,16 @@ namespace Streaker.DAL.Services.Streaks
                 });
 
             return await streaks.ToListAsync();
+        }
+
+        public async Task UpdateStreakAsync(StreakUpdateDto streakUpdateDto)
+        {
+            var streak = await _unitOfWork.StreaksRepository.GetByIdAsync(streakUpdateDto.Id);
+            streak.Id = streakUpdateDto.Id;
+            streak.Name = streakUpdateDto.Name;
+            streak.Description = streakUpdateDto.Description;
+            streak.Category = streakUpdateDto.Category;
+            await _unitOfWork.StreaksRepository.UpdateAsync(streak);
         }
     }
 }

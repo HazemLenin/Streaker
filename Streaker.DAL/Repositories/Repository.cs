@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -56,15 +57,11 @@ namespace Streaker.DAL.Repositories
             return await query.FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public async Task<string> AddAsync(T entity)
+        public async Task AddAsync(T entity)
         {
             entity.Created = DateTime.UtcNow;
 
             await _dbSet.AddAsync(entity);
-
-            await _dbContext.SaveChangesAsync();
-            
-            return entity.Id ?? "";
         }
 
         public async Task AddRangeAsync(IEnumerable<T> entities)
@@ -73,7 +70,6 @@ namespace Streaker.DAL.Repositories
                 entity.Created = DateTime.UtcNow;
 
             await _dbSet.AddRangeAsync(entities);
-            await _dbContext.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(T entity)
@@ -81,7 +77,6 @@ namespace Streaker.DAL.Repositories
             entity.Updated = DateTime.UtcNow;
             _dbSet.Update(entity);
             _dbSet.Entry(entity).Property(e => e.Created).IsModified = false;
-            await _dbContext.SaveChangesAsync();
         }
 
         public async Task UpdateRangeAsync(IEnumerable<T> entities)
@@ -93,8 +88,6 @@ namespace Streaker.DAL.Repositories
             
             foreach (var entity in entities)
                 _dbSet.Entry(entity).Property(e => e.Created).IsModified = false;
-
-            await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(string id)
@@ -102,7 +95,6 @@ namespace Streaker.DAL.Repositories
             var entity = await _dbSet.FindAsync(id);
             if (entity != null)
                 _dbSet.Remove(entity);
-            await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteRangeAsync(IEnumerable<string> ids)
@@ -113,12 +105,10 @@ namespace Streaker.DAL.Repositories
                 if (entity != null)
                     _dbSet.Remove(entity);
             }
-            await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<bool> CheckExistsAsync(string id)
-        {
-            return await _dbContext.Set<T>().AnyAsync(e => e.Id == id);
-        }
+        public async Task<bool> CheckExistsAsync(string id) => await _dbContext.Set<T>().AnyAsync(e => e.Id == id);
+
+        public async Task<int> SaveAsync() => await _dbContext.SaveChangesAsync();
     }
 }
