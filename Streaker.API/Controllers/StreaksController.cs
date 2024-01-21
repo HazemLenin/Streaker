@@ -72,12 +72,39 @@ namespace Streaker.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> PutStreak(string id, StreakUpdateDto streakUpdateDto)
         {
+            var streakExists = await _streaksService.CheckExistsAsync(id);
+            if (!streakExists)
+                return NotFound(new ApiResponse()
+                {
+                    Errors = new()
+                    {
+                        [""] = ["Streak cannot be found."]
+                    }
+                });
+
             await _streaksService.UpdateStreakAsync(streakUpdateDto);
             return Created();
         }
 
-        //// DELETE: api/Streaks/{id}
-        //[HttpPut("{id}")]
-        //public ActionResult DeleteStreak() { }
+        // DELETE: api/Streaks/{id}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ApiResponse>> DeleteStreak(string id)
+        {
+            var streakExists = await _streaksService.CheckExistsAsync(id);
+            if (!streakExists)
+                return NotFound(new ApiResponse()
+                {
+                    Errors = new()
+                    {
+                        [""] = ["Streak cannot be found."]
+                    }
+                });
+
+            await _streaksService.DeleteStreakAsync(id);
+            return new ObjectResult(new ApiResponse())
+            {
+                StatusCode = StatusCodes.Status204NoContent
+            };
+        }
     }
 }
