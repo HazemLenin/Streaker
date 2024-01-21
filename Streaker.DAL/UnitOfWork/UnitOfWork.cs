@@ -23,9 +23,6 @@ namespace Streaker.DAL.UnitOfWork
             CommitsRepository = new Repository<Commit>(_context);
         }
 
-        public virtual int Save()
-        {
-            return _context.SaveChanges();
-        }
+        public async Task<int> SaveAsync() => await _context.SaveChangesAsync();
     }
 }

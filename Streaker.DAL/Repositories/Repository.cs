@@ -59,6 +59,7 @@ namespace Streaker.DAL.Repositories
 
         public async Task AddAsync(T entity)
         {
+            entity.Id = Guid.NewGuid().ToString();
             entity.Created = DateTime.UtcNow;
 
             await _dbSet.AddAsync(entity);
@@ -108,7 +109,5 @@ namespace Streaker.DAL.Repositories
         }
 
         public async Task<bool> CheckExistsAsync(string id) => await _dbContext.Set<T>().AnyAsync(e => e.Id == id);
-
-        public async Task<int> SaveAsync() => await _dbContext.SaveChangesAsync();
     }
 }
