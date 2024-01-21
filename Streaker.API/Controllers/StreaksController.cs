@@ -42,16 +42,7 @@ namespace Streaker.API.Controllers
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var userCanAccess = await _streaksService.CheckUserAuthorityAsync(userId, id);
             if (!userCanAccess)
-                return new ObjectResult(new ApiResponse()
-                {
-                    Errors = new()
-                    {
-                        [""] = ["You cannot access this streak."]
-                    }
-                })
-                {
-                    StatusCode = StatusCodes.Status403Forbidden,
-                };
+                return Forbid();
 
             return Ok(new ApiResponse<StreakDetailsDto>(streak));
         }
@@ -85,16 +76,7 @@ namespace Streaker.API.Controllers
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var userCanAccess = await _streaksService.CheckUserAuthorityAsync(userId, id);
             if (!userCanAccess)
-                return new ObjectResult(new ApiResponse()
-                {
-                    Errors = new()
-                    {
-                        [""] = ["You cannot access this streak."]
-                    }
-                })
-                {
-                    StatusCode = StatusCodes.Status403Forbidden,
-                };
+                return Forbid();
 
             await _streaksService.UpdateStreakAsync(id, streakUpdateDto);
             return Created();
@@ -117,22 +99,10 @@ namespace Streaker.API.Controllers
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var userCanAccess = await _streaksService.CheckUserAuthorityAsync(userId, id);
             if (!userCanAccess)
-                return new ObjectResult(new ApiResponse()
-                {
-                    Errors = new()
-                    {
-                        [""] = ["You cannot access this streak."]
-                    }
-                })
-                {
-                    StatusCode = StatusCodes.Status403Forbidden,
-                };
+                return Forbid();
 
             await _streaksService.DeleteStreakAsync(id);
-            return new ObjectResult(new ApiResponse())
-            {
-                StatusCode = StatusCodes.Status204NoContent
-            };
+            return NoContent();
         }
     }
 }

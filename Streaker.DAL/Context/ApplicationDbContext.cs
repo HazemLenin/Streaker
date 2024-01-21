@@ -26,7 +26,7 @@ namespace Streaker.DAL.Context
         public override int SaveChanges()
         {
             var entries = ChangeTracker.Entries().Where(e => e.State == EntityState.Deleted);
-
+            
             foreach (var entry in entries)
             {
                 if (entry.Entity is BaseDomain)
@@ -43,6 +43,28 @@ namespace Streaker.DAL.Context
                 }
             }
             return base.SaveChanges();
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var entries = ChangeTracker.Entries().Where(e => e.State == EntityState.Deleted);
+
+            foreach (var entry in entries)
+            {
+                if (entry.Entity is BaseDomain)
+                {
+                    entry.State = EntityState.Modified;
+                    entry.CurrentValues["IsDeleted"] = true;
+                    entry.CurrentValues["Deleted"] = DateTime.UtcNow;
+                }
+                else if (entry.Entity is ApplicationUser)
+                {
+                    entry.State = EntityState.Modified;
+                    entry.CurrentValues["IsActive"] = false;
+                    entry.CurrentValues["Deactivated"] = DateTime.UtcNow;
+                }
+            }
+            return await base.SaveChangesAsync();
         }
 
         public DbSet<Streak> Streaks { get; set; }
