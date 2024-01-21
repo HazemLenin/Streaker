@@ -67,10 +67,9 @@ namespace Streaker.DAL.Services.Streaks
             return paginatedStreaks;
         }
 
-        public async Task UpdateStreakAsync(StreakUpdateDto streakUpdateDto)
+        public async Task UpdateStreakAsync(string streakId, StreakUpdateDto streakUpdateDto)
         {
-            var streak = await _unitOfWork.StreaksRepository.GetByIdAsync(streakUpdateDto.Id);
-            streak.Id = streakUpdateDto.Id;
+            var streak = await _unitOfWork.StreaksRepository.GetByIdAsync(streakId);
             streak.Name = streakUpdateDto.Name;
             streak.Description = streakUpdateDto.Description;
             streak.Category = streakUpdateDto.Category;

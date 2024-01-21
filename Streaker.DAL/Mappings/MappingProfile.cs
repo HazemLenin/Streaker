@@ -13,6 +13,9 @@ namespace Streaker.DAL.Mappings
             CreateMap<ApplicationUser, UserDto>()
                 .ReverseMap();
 
+            CreateMap<StreakDetailsDto, Streak>()
+                .ReverseMap();
+
             CreateMap<StreakAddDto, Streak>()
                 .ReverseMap();
 

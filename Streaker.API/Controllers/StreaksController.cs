@@ -82,7 +82,21 @@ namespace Streaker.API.Controllers
                     }
                 });
 
-            await _streaksService.UpdateStreakAsync(streakUpdateDto);
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var userCanAccess = await _streaksService.CheckUserAuthorityAsync(userId, id);
+            if (!userCanAccess)
+                return new ObjectResult(new ApiResponse()
+                {
+                    Errors = new()
+                    {
+                        [""] = ["You cannot access this streak."]
+                    }
+                })
+                {
+                    StatusCode = StatusCodes.Status403Forbidden,
+                };
+
+            await _streaksService.UpdateStreakAsync(id, streakUpdateDto);
             return Created();
         }
 
@@ -99,6 +113,20 @@ namespace Streaker.API.Controllers
                         [""] = ["Streak cannot be found."]
                     }
                 });
+
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var userCanAccess = await _streaksService.CheckUserAuthorityAsync(userId, id);
+            if (!userCanAccess)
+                return new ObjectResult(new ApiResponse()
+                {
+                    Errors = new()
+                    {
+                        [""] = ["You cannot access this streak."]
+                    }
+                })
+                {
+                    StatusCode = StatusCodes.Status403Forbidden,
+                };
 
             await _streaksService.DeleteStreakAsync(id);
             return new ObjectResult(new ApiResponse())

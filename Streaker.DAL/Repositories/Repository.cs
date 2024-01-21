@@ -14,6 +14,7 @@ namespace Streaker.DAL.Repositories
     {
         private readonly DbContext _dbContext;
         private readonly DbSet<T> _dbSet;
+        private static readonly char[] separator = [','];
 
         public Repository(DbContext dbContext)
         {
@@ -31,7 +32,7 @@ namespace Streaker.DAL.Repositories
             IQueryable<T> query = _dbSet;
 
             if (!string.IsNullOrWhiteSpace(includeProperties))
-                foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                foreach (var includeProperty in includeProperties.Split(separator, StringSplitOptions.RemoveEmptyEntries))
                     query = query.Include(includeProperty);
 
             if (filter != null)
@@ -51,7 +52,7 @@ namespace Streaker.DAL.Repositories
             IQueryable<T> query = _dbSet;
 
             if (!string.IsNullOrWhiteSpace(includeProperties))
-                foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                foreach (var includeProperty in includeProperties.Split(separator, StringSplitOptions.RemoveEmptyEntries))
                     query = query.Include(includeProperty);
 
             return await query.FirstOrDefaultAsync(e => e.Id == id);

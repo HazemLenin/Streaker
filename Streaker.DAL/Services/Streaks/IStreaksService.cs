@@ -15,7 +15,7 @@ namespace Streaker.DAL.Services.Streaks
         Task<bool> CheckUserAuthorityAsync(string userId, string streakId);
         Task<bool> CheckExistsAsync(string streakId);
         Task<StreakDetailsDto> GetStreakDetailsAsync(string streakId);
-        Task UpdateStreakAsync(StreakUpdateDto streakUpdateDto);
+        Task UpdateStreakAsync(string streakId, StreakUpdateDto streakUpdateDto);
         Task DeleteStreakAsync(string streakId);
     }
 }
