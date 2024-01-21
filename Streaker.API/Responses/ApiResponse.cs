@@ -8,14 +8,14 @@ namespace Streaker.API.Responses
         public Dictionary<string, List<string>>? Errors { get; set; }
     }
 
-    public class ApiResponse<T> : ApiResponse
+    public class ApiResponse<T>(T data) : ApiResponse
     {
-        public T? Data { get; set; }
+        public T? Data { get; set; } = data;
     }
 
-    public class ApiPaginatedResponse<T>(PaginatedList<T> paginatedData) : ApiResponse<T>
+    public class ApiPaginatedResponse<T>(PaginatedList<T> paginatedData) : ApiResponse
     {
-        public new List<T> Data { get; set; } = [.. paginatedData];
+        public List<T> Data { get; set; } = [.. paginatedData];
         public int PageIndex { get; set; } = paginatedData.PageIndex;
         public int TotalPages { get; set; } = paginatedData.TotalPages;
         public int TotalCount { get; set; } = paginatedData.TotalCount;

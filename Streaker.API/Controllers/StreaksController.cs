@@ -50,18 +50,23 @@ namespace Streaker.API.Controllers
                     }
                 })
                 {
-                    StatusCode = 403,
+                    StatusCode = StatusCodes.Status403Forbidden,
                 };
 
-            return Ok(new ApiResponse<StreakDetailsDto>()
-            {
-                Data = streak,
-            });
+            return Ok(new ApiResponse<StreakDetailsDto>(streak));
         }
 
-        //// POST: api/Streaks
-        //[HttpPost]
-        //public ActionResult<ApiResponse<string>> PostStreak() { }
+        // POST: api/Streaks
+        [HttpPost]
+        public async Task<ActionResult<ApiResponse<string>>> PostStreak(StreakAddDto streakAddDto)
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var streakId = await _streaksService.AddStreakAsync(streakAddDto, userId);
+            return new ObjectResult(new ApiResponse<string>(streakId))
+            {
+                StatusCode = StatusCodes.Status201Created
+            };
+        }
 
         //// PUT: api/Streaks/{id}
         //[HttpPut("{id}")]
