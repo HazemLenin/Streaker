@@ -2,14 +2,14 @@
 import Modal from "./Components/Modal";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import SimpleCalendar from "./Components/SimpleCalendar";
+import Calendar from "./Components/Calendar";
 
 export default function Home() {
 	const [showModal, setShowModal] = useState(false);
 
 	return (
 		<div className="flex justify-center items-center h-screen">
-			<SimpleCalendar />
+			<Calendar />
 			{/* <button className="btn btn-primary" onClick={() => setShowModal(true)}>
 				Show Modal
 			</button>

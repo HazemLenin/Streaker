@@ -1,4 +1,4 @@
-// components/SimpleCalendar.js
+// components/Calendar.js
 import React, { useState } from "react";
 import {
 	format,
@@ -17,7 +17,7 @@ import {
 	faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-const SimpleCalendar = () => {
+const Calendar = () => {
 	const today = new Date();
 	const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -70,8 +70,8 @@ const SimpleCalendar = () => {
 						{day}
 					</div>
 				))}
-				{getEmptyDays().map((day) => (
-					<div></div>
+				{getEmptyDays().map((day, index) => (
+					<div key={index}></div>
 				))}
 				{daysInMonth.map((day) => (
 					<div
@@ -89,4 +89,4 @@ const SimpleCalendar = () => {
 	);
 };
 
-export default SimpleCalendar;
+export default Calendar;
