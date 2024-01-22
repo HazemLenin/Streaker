@@ -28,62 +28,54 @@ namespace Streaker.API.Controllers
         // GET: api/Auth/Profile
         [HttpGet("Profile")]
         [Authorize]
-        public ApiResponse<UserDto> Profile() => new()
-        {
-            Data = _usersService.GetLoggedInUser(User)
-        };
+        public ActionResult<ApiResponse<UserDto>> Profile() =>
+            Ok(new ApiResponse<UserDto>(_usersService.GetLoggedInUser(User)));
 
         // POST: api/Auth/Signup
         [HttpPost("Signup")]
-        public async Task<ApiResponse<AuthDto>> Signup(RegisterDto registerDto)
+        public async Task<ActionResult<Task<ApiResponse<AuthDto>>>> Signup(RegisterDto registerDto)
         {
             var registerResult = await _authService.RegisterUserAsync(registerDto);
 
             if (!registerResult.IsSucceed)
-                return new()
+                return BadRequest(new ApiResponse()
                 {
                     Errors = registerResult.Errors
-                };
-            return new()
+                });
+            return new ObjectResult(new ApiResponse<AuthDto>(registerResult))
             {
-                Data = registerResult
+                StatusCode = StatusCodes.Status201Created
             };
         }
 
         // POST: api/Auth/Login
         [HttpPost("Login")]
-        public async Task<ApiResponse<AuthDto>> Login(LoginDto loginDto)
+        public async Task<ActionResult<ApiResponse<AuthDto>>> Login(LoginDto loginDto)
         {
             var loginResult = await _authService.GetTokenAsync(loginDto);
 
             if (!loginResult.IsSucceed)
-                return new()
+                return BadRequest(new ApiResponse()
                 {
                     Errors = loginResult.Errors
-                };
+                });
 
-            return new()
-            {
-                Data = loginResult
-            };
+            return Ok(new ApiResponse<AuthDto>(loginResult));
         }
 
         // POST: api/Auth/Refresh
         [HttpPost("Refresh")]
-        public async Task<ApiResponse<AuthDto>> Refresh(RefreshTokenDto refreshTokenDto)
+        public async Task<ActionResult<ApiResponse<AuthDto>>> Refresh(RefreshTokenDto refreshTokenDto)
         {
             var refreshResult = await _authService.RefreshTokenAsync(refreshTokenDto);
 
             if (!refreshResult.IsSucceed)
-                return new()
+                return BadRequest(new ApiResponse()
                 {
                     Errors = refreshResult.Errors
-                };
+                });
 
-            return new()
-            {
-                Data = refreshResult
-            };
+            return Ok(new ApiResponse<AuthDto>(refreshResult));
         }
 
         // GET: api/Auth/signin-google
@@ -95,18 +87,14 @@ namespace Streaker.API.Controllers
                 RedirectUri = Url.Action(nameof(HandleGoogleCallback))
             };
 
-            Console.WriteLine(Url.Action(nameof(HandleGoogleCallback)));
-
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }
 
         // GET: api/Auth/handle-google-callback
-        [Authorize]
+        [Authorize(GoogleDefaults.AuthenticationScheme)]
         [HttpGet("handle-google-callback")]
         public IActionResult HandleGoogleCallback()
         {
-            Console.WriteLine("callback");
-            Console.WriteLine(User.Identity.Name);
             // Handle the callback and retrieve user information
             // (You can access user information through User.Identity)
 

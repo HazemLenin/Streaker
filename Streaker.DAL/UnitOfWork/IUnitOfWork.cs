@@ -13,6 +13,6 @@ namespace Streaker.DAL.UnitOfWork
     {
         IRepository<Streak> StreaksRepository { get; }
         IRepository<Commit> CommitsRepository { get; }
-        int Save();
+        Task<int> SaveAsync();
     }
 }

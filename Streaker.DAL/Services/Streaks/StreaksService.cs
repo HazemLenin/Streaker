@@ -32,10 +32,15 @@ namespace Streaker.DAL.Services.Streaks
             var streak = _mapper.Map<Streak>(streakAddDto);
             streak.ApplicationUserId = userId;
             await _unitOfWork.StreaksRepository.AddAsync(streak);
+            await _unitOfWork.SaveAsync();
             return streak.Id;
         }
 
-        public async Task DeleteStreakAsync(string streakId) => await _unitOfWork.StreaksRepository.DeleteAsync(streakId);
+        public async Task DeleteStreakAsync(string streakId)
+        {
+            await _unitOfWork.StreaksRepository.DeleteAsync(streakId);
+            await _unitOfWork.SaveAsync();
+        }
 
         public async Task<StreakDetailsDto> GetStreakDetailsAsync(string streakId)
         {
@@ -62,14 +67,15 @@ namespace Streaker.DAL.Services.Streaks
             return paginatedStreaks;
         }
 
-        public async Task UpdateStreakAsync(StreakUpdateDto streakUpdateDto)
+        public async Task UpdateStreakAsync(string streakId, StreakUpdateDto streakUpdateDto)
         {
-            var streak = await _unitOfWork.StreaksRepository.GetByIdAsync(streakUpdateDto.Id);
-            streak.Id = streakUpdateDto.Id;
+            var streak = await _unitOfWork.StreaksRepository.GetByIdAsync(streakId);
             streak.Name = streakUpdateDto.Name;
             streak.Description = streakUpdateDto.Description;
             streak.Category = streakUpdateDto.Category;
             await _unitOfWork.StreaksRepository.UpdateAsync(streak);
+            await _unitOfWork.SaveAsync();
+
         }
     }
 }

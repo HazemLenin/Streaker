@@ -18,6 +18,5 @@ namespace Streaker.DAL.Repositories
         Task DeleteAsync(string id);
         Task DeleteRangeAsync(IEnumerable<string> ids);
         Task<bool> CheckExistsAsync(string id);
-        Task<int> SaveAsync();
     }
 }

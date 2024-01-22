@@ -8,7 +8,7 @@ namespace Streaker.Core.Common
 {
     public abstract class BaseDomain
     {
-        public string Id { get; set; } = new Guid().ToString();
+        public string Id { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;
         public DateTime Updated { get; set; }
         public DateTime Deleted { get; set; }
