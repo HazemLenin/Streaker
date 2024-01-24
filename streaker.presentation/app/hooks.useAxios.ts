@@ -15,6 +15,7 @@ function useAxios({ includeTokens = true } = {}) {
 		headers: {
 			"Content-Type": "application/json",
 		},
+		// update
 	});
 
 	if (includeTokens) {

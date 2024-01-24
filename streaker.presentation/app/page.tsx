@@ -1,8 +1,8 @@
 "use client";
-import Modal from "./Components/Modal";
+import Modal from "./components/Modal";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Calendar from "./Components/Calendar";
+import Calendar from "./components/Calendar";
 
 export default function Home() {
 	const [showModal, setShowModal] = useState(false);
@@ -24,7 +24,7 @@ export default function Home() {
 					>
 						<Modal close={() => setShowModal(false)} large>
 							<div className="flex flex-col items-center">
-								<h1 className="text-4xl font-bold">Show modal</h1>
+								<h1 className="text-4xl">Show modal</h1>
 								<button
 									className="btn btn-secondary"
 									onClick={() => setShowModal(false)}

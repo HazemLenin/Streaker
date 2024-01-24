@@ -57,16 +57,14 @@ const Calendar = () => {
 				<button className="calendar-btn" onClick={prevMonth}>
 					<FontAwesomeIcon icon={faChevronLeft} />
 				</button>
-				<h2 className="text-2xl font-bold">
-					{format(selectedDate, "MMMM yyyy")}
-				</h2>
+				<h2 className="text-2xl">{format(selectedDate, "MMMM yyyy")}</h2>
 				<button className="calendar-btn" onClick={nextMonth}>
 					<FontAwesomeIcon icon={faChevronRight} />
 				</button>
 			</div>
 			<div className="grid grid-cols-7 gap-4">
 				{weekDays.map((day) => (
-					<div key={day} className="text-center font-bold">
+					<div key={day} className="text-center">
 						{day}
 					</div>
 				))}
