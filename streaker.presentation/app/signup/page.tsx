@@ -1,19 +1,59 @@
 "use client";
 import { FormEvent, useRef, useState } from "react";
 import useAxios from "../hooks.useAxios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faCircleNotch,
+	faSpinner,
+	faTruckLoading,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Page() {
 	const axios = useAxios();
-	const email = useRef(null);
-	const password = useRef(null);
-	const confirmPassword = useRef(null);
-	const [errors, setErrors] = useState([]);
+	const firstName = useRef<HTMLInputElement>(null);
+	const lastName = useRef<HTMLInputElement>(null);
+	const email = useRef<HTMLInputElement>(null);
+	const username = useRef<HTMLInputElement>(null);
+	const password = useRef<HTMLInputElement>(null);
+	const confirmPassword = useRef<HTMLInputElement>(null);
+	const [errors, setErrors] = useState<Array<String>>([]);
+	const [loading, setLoading] = useState(false);
+	const [duplicateEmail, setDuplicateEmail] = useState(false);
+	const [duplicateUserName, setDuplicateUserName] = useState(false);
 
 	function handleSubmit(e: FormEvent) {
+		setLoading(true);
+		setErrors([]);
 		e.preventDefault();
-		console.log(email);
-		console.log(password);
-		console.log(confirmPassword);
+		if (password.current?.value != confirmPassword.current?.value) {
+			setErrors([...errors, "Password don't match"]);
+			return;
+		}
+		axios
+			.post("/api/auth/signup", {
+				firstName: firstName.current?.value as string,
+				lastName: lastName.current?.value as string,
+				email: email.current?.value as string,
+				userName: username.current?.value as string,
+				password: password.current?.value as string,
+			})
+			.then((res) => {
+				setLoading(false);
+				console.log(res);
+			})
+			.catch((err) => {
+				console.log(err);
+				for (let key of Object.keys(err.response.data.errors)) {
+					if (key != "DuplicateEmail" && key != "DuplicateUserName")
+						setErrors([...errors, err.response.data.errors[key]]);
+				}
+				// PasswordRequiresDigit
+				// PasswordRequiresNonAlphanumeric
+				// PasswordRequiresUpper
+				// PasswordTooShort
+				// DuplicateEmail
+				// DuplicateUserName
+			});
 	}
 	return (
 		<div className="flex flex-col gap-20 px-5">
@@ -23,43 +63,84 @@ export default function Page() {
 			>
 				<h1 className="text-4xl">Signup</h1>
 
-				{errors && (
+				{errors.length != 0 && (
 					<ul>
-						{errors.map((error) => (
-							<li className="text-danger">{error}</li>
+						{errors.map((error, index) => (
+							<li key={index} className="text-danger">
+								{error}
+							</li>
 						))}
 					</ul>
 				)}
 
-				<div className="form-group">
-					<label>Email/Username</label>
-					<input
-						ref={email}
-						type="text"
-						className="form-control"
-						placeholder="Email/Username"
-					/>
+				<div className="flex gap-5">
+					<div className="form-group">
+						<label>First Name</label>
+						<input
+							ref={firstName}
+							type="text"
+							className="form-control"
+							placeholder="First Name"
+						/>
+					</div>
+					<div className="form-group">
+						<label>Last Name</label>
+						<input
+							ref={lastName}
+							type="text"
+							className="form-control"
+							placeholder="Last Name"
+						/>
+					</div>
 				</div>
-				<div className="form-group">
-					<label>Password</label>
-					<input
-						ref={password}
-						type="password"
-						className="form-control"
-						placeholder="Password"
-					/>
+				<div className="flex gap-5">
+					<div className="form-group">
+						<label>Email</label>
+						<input
+							ref={email}
+							type="email"
+							className="form-control"
+							placeholder="Email"
+						/>
+						{duplicateEmail && (
+							<p className="text-danger">Email is already taken.</p>
+						)}
+					</div>
+					<div className="form-group">
+						<label>Username</label>
+						<input
+							ref={username}
+							type="text"
+							className="form-control"
+							placeholder="Username"
+						/>
+						{duplicateUserName && (
+							<p className="text-danger">Username is already taken.</p>
+						)}
+					</div>
 				</div>
-				<div className="form-group">
-					<label>Confirm Password</label>
-					<input
-						ref={confirmPassword}
-						type="password"
-						className="form-control"
-						placeholder="Confirm Password"
-					/>
+				<div className="flex gap-5">
+					<div className="form-group">
+						<label>Password</label>
+						<input
+							ref={password}
+							type="password"
+							className="form-control"
+							placeholder="Password"
+						/>
+					</div>
+					<div className="form-group">
+						<label>Confirm Password</label>
+						<input
+							ref={confirmPassword}
+							type="password"
+							className="form-control"
+							placeholder="Confirm Password"
+						/>
+					</div>
 				</div>
 				<button type="submit" className="btn btn-primary">
-					Signup
+					{loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : "Signup"}
 				</button>
 			</form>
 		</div>

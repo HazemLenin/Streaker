@@ -1,9 +1,8 @@
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { remove_tokens, set_tokens } from "./actions";
-import allReducers from "./Reducers";
-import tokensReducer from "./Reducers/tokensReducer";
 import { IRootState } from "./store";
+import { setCookie, parseCookies } from "nookies";
 
 const baseURL = "https://localhost:7075";
 function useAxios({ includeTokens = true } = {}) {
@@ -14,8 +13,8 @@ function useAxios({ includeTokens = true } = {}) {
 		baseURL,
 		headers: {
 			"Content-Type": "application/json",
+			Authorization: `Bearer ${tokens?.token}`,
 		},
-		// update
 	});
 
 	if (includeTokens) {
@@ -34,7 +33,8 @@ function useAxios({ includeTokens = true } = {}) {
 					}
 				});
 
-			localStorage.setItem("tokens", JSON.stringify(response?.data));
+			// localStorage.setItem("tokens", JSON.stringify(response?.data));
+			setCookie(null, "tokens", JSON.stringify(response?.data), { path: "/" });
 
 			dispatch(set_tokens(response?.data));
 

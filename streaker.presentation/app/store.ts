@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import allReducers from "./Reducers";
+import allReducers from "./reducers";
 
 interface Window {
 	__REDUX_DEVTOOLS_EXTENSION__?: () => (args: any) => void;
