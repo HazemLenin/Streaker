@@ -18,6 +18,7 @@ const config: Config = {
 				DEFAULT: colors.white,
 				dark: colors.gray["200"],
 			},
+			danger: colors.red["500"],
 			white: colors.white,
 			black: colors.black,
 			gray: colors.gray,
