@@ -7,6 +7,7 @@ import {
 	faSpinner,
 	faTruckLoading,
 } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 export default function Page() {
 	const axios = useAxios();
@@ -40,6 +41,9 @@ export default function Page() {
 			.then((res) => {
 				setLoading(false);
 				console.log(res);
+				toast.success("You signed up successfully!", {
+					theme: "colored",
+				});
 			})
 			.catch((err) => {
 				console.log(err);
