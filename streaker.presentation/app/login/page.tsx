@@ -1,10 +1,15 @@
 "use client";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import {
+	faCircleNotch,
+	faEye,
+	faEyeSlash,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FormEvent, useRef, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import { useDispatch } from "react-redux";
 import { set_tokens } from "../actions";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
 	const [showPassword, setShowPassword] = useState(false);
@@ -14,12 +19,14 @@ export default function Page() {
 	const dispatch = useDispatch();
 	const [errors, setErrors] = useState<Array<String>>([]);
 	const [loading, setLoading] = useState(false);
+	const router = useRouter();
 
 	function togglePassword() {
 		setShowPassword(!showPassword);
 	}
 
 	function handleSubmit(e: FormEvent) {
+		e.preventDefault();
 		setErrors([]);
 		setLoading(true);
 		axios
@@ -29,6 +36,7 @@ export default function Page() {
 			})
 			.then((res) => {
 				dispatch(set_tokens(res.data));
+				router.push("/");
 			})
 			.catch((err) => {
 				if (err.response.data.status == 400) {
@@ -86,7 +94,7 @@ export default function Page() {
 					</div>
 				</div>
 				<button type="submit" className="btn btn-primary">
-					Login
+					{loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : "Login"}
 				</button>
 			</form>
 		</div>

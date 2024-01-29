@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import logo from "../../public/Streaker Logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { IRootState } from "../store";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
 	const tokens = useSelector((state: IRootState) => state.tokens);
