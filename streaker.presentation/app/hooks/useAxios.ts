@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { remove_tokens, set_tokens } from "./actions";
-import { IRootState } from "./store";
+import { remove_tokens, set_tokens } from "../actions";
+import { IRootState } from "../store";
 import { setCookie, parseCookies } from "nookies";
 
 const baseURL = "https://localhost:7075";

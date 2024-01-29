@@ -1,12 +1,16 @@
 "use client";
 import { FormEvent, useRef, useState } from "react";
-import useAxios from "../hooks.useAxios";
+import useAxios from "../hooks/useAxios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faCircleNotch,
 	faSpinner,
 	faTruckLoading,
 } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { set_tokens } from "../actions";
 
 export default function Page() {
 	const axios = useAxios();
@@ -20,6 +24,8 @@ export default function Page() {
 	const [loading, setLoading] = useState(false);
 	const [duplicateEmail, setDuplicateEmail] = useState(false);
 	const [duplicateUserName, setDuplicateUserName] = useState(false);
+	const router = useRouter();
+	const dispatch = useDispatch();
 
 	function handleSubmit(e: FormEvent) {
 		setLoading(true);
@@ -39,10 +45,13 @@ export default function Page() {
 			})
 			.then((res) => {
 				setLoading(false);
-				console.log(res);
+				dispatch(set_tokens(res.data));
+				toast.success("You signed up successfully!", {
+					theme: "colored",
+				});
+				router.push("/");
 			})
 			.catch((err) => {
-				console.log(err);
 				for (let key of Object.keys(err.response.data.errors)) {
 					if (key != "DuplicateEmail" && key != "DuplicateUserName")
 						setErrors([...errors, err.response.data.errors[key]]);
@@ -53,6 +62,9 @@ export default function Page() {
 				// PasswordTooShort
 				// DuplicateEmail
 				// DuplicateUserName
+			})
+			.finally(() => {
+				setLoading(false);
 			});
 	}
 	return (
@@ -64,11 +76,9 @@ export default function Page() {
 				<h1 className="text-4xl">Signup</h1>
 
 				{errors.length != 0 && (
-					<ul>
+					<ul className="text-danger">
 						{errors.map((error, index) => (
-							<li key={index} className="text-danger">
-								{error}
-							</li>
+							<li key={index}>{error}</li>
 						))}
 					</ul>
 				)}
