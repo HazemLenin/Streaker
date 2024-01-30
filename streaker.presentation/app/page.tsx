@@ -1,15 +1,28 @@
 "use client";
-import Modal from "./components/Modal";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Calendar from "./components/Calendar";
+import { useSelector } from "react-redux";
+import { IRootState } from "./store";
+import { Inter, Pacifico } from "next/font/google";
+
+const pacifico = Pacifico({ weight: ["400"], subsets: ["latin"] });
 
 export default function Home() {
-	const [showModal, setShowModal] = useState(false);
+	const tokens = useSelector((state: IRootState) => state.tokens);
 
 	return (
-		<div className="flex justify-center items-center h-screen">
-			<Calendar />
+		<>
+			<div className="md:flex justify-between">
+				<div className="flex flex-col items-center md:block md:w-2/3">
+					<h1
+						className={`text-5xl md:text-7xl font-bold mb-5 ${pacifico.className}`}
+					>
+						Streaker
+					</h1>
+					<p>Keeps your streaks up!</p>
+				</div>
+				<div className="hidden md:block w-1/3">
+					<img src="/svg/Jogging-cuate.svg" />
+				</div>
+			</div>
 			{/* <button className="btn btn-primary" onClick={() => setShowModal(true)}>
 				Show Modal
 			</button>
@@ -36,6 +49,6 @@ export default function Home() {
 					</motion.div>
 				)}
 			</AnimatePresence> */}
-		</div>
+		</>
 	);
 }

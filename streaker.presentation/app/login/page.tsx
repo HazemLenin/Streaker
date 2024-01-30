@@ -35,11 +35,11 @@ export default function Page() {
 				password: password.current?.value,
 			})
 			.then((res) => {
-				dispatch(set_tokens(res.data));
+				dispatch(set_tokens(res.data.data));
 				router.push("/");
 			})
 			.catch((err) => {
-				if (err.response.data.status == 400) {
+				if (err.response.status == 400) {
 					setErrors([...errors, "incorrect email/username or password."]);
 				}
 			})

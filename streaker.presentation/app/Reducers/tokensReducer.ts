@@ -6,7 +6,7 @@ import {
 } from "../models/auth/RemoveTokensAction";
 
 const initialState = parseCookies().tokens
-	? JSON.parse(parseCookies().tokens ?? "")
+	? JSON.parse(parseCookies().tokens ?? "null")
 	: null;
 
 function tokensReducer(

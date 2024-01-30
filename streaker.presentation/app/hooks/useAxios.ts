@@ -36,7 +36,7 @@ function useAxios({ includeTokens = true } = {}) {
 			// localStorage.setItem("tokens", JSON.stringify(response?.data));
 			setCookie(null, "tokens", JSON.stringify(response?.data), { path: "/" });
 
-			dispatch(set_tokens(response?.data));
+			dispatch(set_tokens(response?.data.data));
 
 			res.config.headers.Authorization = `Bearer ${response?.data.token}`;
 
