@@ -3,12 +3,11 @@ import type { NextRequest } from "next/server";
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-	const tokens = request.cookies;
-	console.log(tokens);
-	//   return NextResponse.redirect(new URL('/home', request.url))
+	const tokens = request.cookies.get("tokens")?.value;
+	if (!tokens) return NextResponse.redirect(new URL("/login", request.url));
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
-	matcher: "/*",
+	matcher: ["/streakers"],
 };
