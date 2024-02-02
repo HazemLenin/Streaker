@@ -9,8 +9,8 @@ export default function Home() {
 	const tokens = useSelector((state: IRootState) => state.tokens);
 
 	return (
-		<>
-			<div className="md:flex justify-between">
+		<div className="pt-10 px-2 md:px-20">
+			<section className="md:flex justify-between">
 				<div className="flex flex-col items-center md:block md:w-2/3">
 					<h1
 						className={`text-5xl md:text-7xl font-bold mb-5 ${pacifico.className}`}
@@ -22,7 +22,7 @@ export default function Home() {
 				<div className="hidden md:block w-1/3">
 					<img src="/svg/Jogging-cuate.svg" />
 				</div>
-			</div>
+			</section>
 			{/* <button className="btn btn-primary" onClick={() => setShowModal(true)}>
 				Show Modal
 			</button>
@@ -49,6 +49,6 @@ export default function Home() {
 					</motion.div>
 				)}
 			</AnimatePresence> */}
-		</>
+		</div>
 	);
 }

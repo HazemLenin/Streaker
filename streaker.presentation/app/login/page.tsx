@@ -49,7 +49,7 @@ export default function Page() {
 	}
 
 	return (
-		<div className="flex justify-center items-center">
+		<div className="flex justify-center items-center pt-10">
 			<form className="form" onSubmit={handleSubmit}>
 				<h1 className="text-4xl text-center hidden md:block">Login</h1>
 				<div className="flex justify-center gap-10 items-center">

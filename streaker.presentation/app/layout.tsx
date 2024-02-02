@@ -23,9 +23,12 @@ export default function RootLayout({
 			<html lang="en">
 				<body className={inter.className}>
 					<Navbar />
-					<main className="px-2 md:px-10">{children}</main>
+					<main className="pt-16">{children}</main>
 					<ToastContainer />
 				</body>
+				<footer className="text-muted text-center">
+					<span>Hazem Lenin @ 2024</span>
+				</footer>
 			</html>
 		</AppProvider>
 	);

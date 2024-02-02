@@ -57,4 +57,8 @@
 	.form-group input.form-control.invalid {
 		@apply border border-danger focus:border-danger focus:ring-danger;
 	}
+
+	.skeleton {
+		@apply bg-muted animate-pulse rounded-md;
+	}
 }
