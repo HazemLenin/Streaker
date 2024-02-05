@@ -35,11 +35,11 @@ export default function Page() {
 				password: password.current?.value,
 			})
 			.then((res) => {
-				dispatch(set_tokens(res.data));
+				dispatch(set_tokens(res.data.data));
 				router.push("/");
 			})
 			.catch((err) => {
-				if (err.response.data.status == 400) {
+				if (err.response.status == 400) {
 					setErrors([...errors, "incorrect email/username or password."]);
 				}
 			})
@@ -49,53 +49,64 @@ export default function Page() {
 	}
 
 	return (
-		<div className="flex flex-col gap-20 px-5">
-			<form
-				className="form flex flex-col gap-10 items-center"
-				onSubmit={handleSubmit}
-			>
-				<h1 className="text-4xl">Login</h1>
-				{errors.length != 0 && (
-					<ul className="text-danger">
-						{errors.map((error, index) => (
-							<li key={index}>{error}</li>
-						))}
-					</ul>
-				)}
-				<div className="form-group">
-					<label>Email/Username</label>
-					<input
-						type="text"
-						className="form-control"
-						placeholder="Email/Username"
-						ref={email}
-					/>
-				</div>
-				<div className="form-group">
-					<label>Password</label>
-					<div className="relative">
-						<input
-							type={showPassword ? "text" : "password"}
-							className="form-control"
-							placeholder="Password"
-							ref={password}
-						/>
-						<button
-							type="button"
-							className="absolute inset-y-0 end-4 flex items-center"
-							onClick={() => togglePassword()}
-						>
-							{showPassword ? (
-								<FontAwesomeIcon icon={faEyeSlash} />
+		<div className="flex justify-center items-center pt-10">
+			<form className="form" onSubmit={handleSubmit}>
+				<h1 className="text-4xl text-center hidden md:block">Login</h1>
+				<div className="flex justify-center gap-10 items-center">
+					<div className="flex flex-col gap-5 items-center">
+						<h1 className="text-4xl text-center md:hidden">Login</h1>
+						{errors.length != 0 && (
+							<ul className="text-danger">
+								{errors.map((error, index) => (
+									<li key={index}>{error}</li>
+								))}
+							</ul>
+						)}
+						<div className="form-group">
+							<label>Email/Username</label>
+							<input
+								type="text"
+								className="form-control"
+								placeholder="Email/Username"
+								ref={email}
+							/>
+						</div>
+						<div className="form-group">
+							<label>Password</label>
+							<div className="relative">
+								<input
+									type={showPassword ? "text" : "password"}
+									className="form-control"
+									placeholder="Password"
+									ref={password}
+								/>
+								<button
+									type="button"
+									className="absolute inset-y-0 end-4 flex items-center"
+									onClick={() => togglePassword()}
+								>
+									{showPassword ? (
+										<FontAwesomeIcon icon={faEyeSlash} />
+									) : (
+										<FontAwesomeIcon icon={faEye} />
+									)}
+								</button>
+							</div>
+						</div>
+						<button type="submit" className="btn btn-primary">
+							{loading ? (
+								<FontAwesomeIcon icon={faCircleNotch} spin />
 							) : (
-								<FontAwesomeIcon icon={faEye} />
+								"Login"
 							)}
 						</button>
 					</div>
+					<img
+						className="hidden md:block"
+						src="/svg/Privacy policy-rafiki.svg"
+						width={300}
+					/>
 				</div>
-				<button type="submit" className="btn btn-primary">
-					{loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : "Login"}
-				</button>
 			</form>
 		</div>
 	);

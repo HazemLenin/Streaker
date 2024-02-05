@@ -11,21 +11,32 @@ import {
 import { useSelector } from "react-redux";
 import { IRootState } from "../store";
 import { useEffect, useState } from "react";
+import { Pacifico } from "next/font/google";
+
+const pacifico = Pacifico({ weight: ["400"], subsets: ["latin"] });
 
 export default function Navbar() {
 	const tokens = useSelector((state: IRootState) => state.tokens);
 
 	return (
-		<nav className="flex items-center justify-between px-3 mb-10 h-16 border-b border-muted shadow-lg">
-			<ul className="flex gap-10">
+		<nav className="flex items-center justify-between px-2 md:px-20 h-16 border-b border-muted shadow-lg fixed inset-0 w-full backdrop-blur-sm z-50">
+			<ul className="flex items-center gap-10">
 				<li>
-					<Link href="/">
+					<Link href="/" className="flex gap-2 items-center">
 						<img src={logo.src} className="w-10" />
+						<p className={`hidden md:inline ${pacifico.className}`}>Streaker</p>
 					</Link>
 				</li>
+				{!!tokens && (
+					<>
+						<li>
+							<Link href="/streaks">Streaks</Link>
+						</li>
+					</>
+				)}
 			</ul>
 			{tokens ? (
-				<ul className="flex gap-10">
+				<ul className="flex items-center gap-10">
 					<li>
 						<Link href="/logout">
 							Logout <FontAwesomeIcon icon={faSignOut} />

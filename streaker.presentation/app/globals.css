@@ -39,7 +39,7 @@
 	}
 
 	.form {
-		@apply border border-muted rounded-2xl p-5 md:w-1/3 mx-auto shadow-lg;
+		@apply border border-muted rounded-2xl p-5 shadow-lg;
 	}
 
 	.form-group {
@@ -56,5 +56,9 @@
 
 	.form-group input.form-control.invalid {
 		@apply border border-danger focus:border-danger focus:ring-danger;
+	}
+
+	.skeleton {
+		@apply bg-muted animate-pulse rounded-md;
 	}
 }
