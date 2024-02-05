@@ -19,7 +19,7 @@ export default function Navbar() {
 	const tokens = useSelector((state: IRootState) => state.tokens);
 
 	return (
-		<nav className="flex items-center justify-between px-2 md:px-20 h-16 border-b border-muted shadow-lg fixed inset-0 w-full backdrop-blur-sm">
+		<nav className="flex items-center justify-between px-2 md:px-20 h-16 border-b border-muted shadow-lg fixed inset-0 w-full backdrop-blur-sm z-50">
 			<ul className="flex items-center gap-10">
 				<li>
 					<Link href="/" className="flex gap-2 items-center">
