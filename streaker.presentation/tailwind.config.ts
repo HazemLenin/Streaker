@@ -22,7 +22,7 @@ const config: Config = {
 			white: colors.white,
 			black: colors.black,
 			gray: colors.gray,
-			muted: colors.gray["600"],
+			muted: colors.gray["500"],
 		},
 	},
 	plugins: [],
