@@ -9,7 +9,7 @@ export default function Home() {
 	const tokens = useSelector((state: IRootState) => state.tokens);
 
 	return (
-		<div className="pt-10 px-2 md:px-20">
+		<div className="pt-24 px-2 md:px-20">
 			<section className="md:flex justify-between">
 				<div className="flex flex-col items-center md:block md:w-2/3">
 					<h1

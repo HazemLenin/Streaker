@@ -23,7 +23,7 @@ export default function RootLayout({
 			<html lang="en">
 				<body className={inter.className}>
 					<Navbar />
-					<main className="pt-16">{children}</main>
+					<main>{children}</main>
 					<ToastContainer />
 				</body>
 				<footer className="text-muted text-center">
