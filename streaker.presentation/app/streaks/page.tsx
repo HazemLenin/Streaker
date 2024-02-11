@@ -61,7 +61,7 @@ export default function Streaks() {
 						{streaks.map((streak: any) => (
 							<Link
 								href={`/streaks/${streak.id}`}
-								className="flex jutsify-between md:hover:bg-background-light py-5 rounded-lg transition-colors"
+								className="flex jutsify-between md:hover:bg-muted border border-muted p-5 rounded-lg transition-colors"
 							>
 								<div className="flex gap-5 md:gap-10 w-full">
 									<div className="flex justify-center items-center text-5xl md:text-7xl md:p-5 h-20 md:h-40 w-20 md:w-40 bg-primary rounded-xl">
@@ -75,14 +75,14 @@ export default function Streaks() {
 											<FontAwesomeIcon icon={faRunning} />
 										)}
 									</div>
-									<div>
+									<div className="flex-shrink-[100]">
 										<h2 className="text-2xl md:text-4xl font-bold">
 											{streak.name}
 										</h2>
 										<p className="text-lg md:hidden">
 											{streak.streakCount}/{streak.targetCount}
 										</p>
-										<p className="text-muted text-lg hidden md:block">
+										<p className="text-lg hidden md:block">
 											{truncateText(
 												"klasjdfl; kasjdflk;aj sdf;jaksld; fjakls; dfj; alskjdf; alsjdfla; djsfak;klasjdfl; kasjdflk;aj sdf;jaksld; fjakls; dfj; alskjdf; alsjdfla; djsfak;klasjdfl; kasjdflk;aj sdf;jaksld; fjakls; dfj; alskjdf; alsjdfla; djsfak;klasjdfl; kasjdflk;aj sdf;jaksld; fjakls; dfj; alskjdf; alsjdfla; djsfak;klasjdfl; kasjdflk;aj sdf;jaksld; fjakls; dfj; alskjdf; alsjdfla; djsfak;klasjdfl; kasjdflk;aj sdf;jaksld; fjakls; dfj; alskjdf; alsjdfla; djsfak;klasjdfl; kasjdflk;aj sdf;jaksld; fjakls; dfj; alskjdf; alsjdfla; djsfak;klasjdfl; kasjdflk;aj sdf;jaksld; fjakls; dfj; alskjdf; alsjdfla; djsfak;klasjdfl; kasjdflk;aj sdf;jaksld; fjakls; dfj; alskjdf; alsjdfla; djsfak;klasjdfl; kasjdflk;aj sdf;jaksld; fjakls; dfj; alskjdf; alsjdfla; djsfak;klasjdfl; kasjdflk;aj sdf;jaksld; fjakls; dfj; alskjdf; alsjdfla; djsfak;klasjdfl; kasjdflk;aj sdf;jaksld; fjakls; dfj; alskjdf; alsjdfla; djsfak;klasjdfl; kasjdflk;aj sdf;jaksld; fjakls; dfj; alskjdf; alsjdfla; djsfak;",
 												20
