@@ -1,9 +1,9 @@
 "use client";
 import { useSelector } from "react-redux";
 import { IRootState } from "./store";
-import { Inter, Pacifico } from "next/font/google";
+import { Bebas_Neue, Inter, Pacifico } from "next/font/google";
 
-const pacifico = Pacifico({ weight: ["400"], subsets: ["latin"] });
+const bebasNeue = Bebas_Neue({ weight: ["400"], subsets: ["latin"] });
 
 export default function Home() {
 	const tokens = useSelector((state: IRootState) => state.tokens);
@@ -13,7 +13,7 @@ export default function Home() {
 			<section className="md:flex justify-between">
 				<div className="flex flex-col items-center md:block md:w-2/3">
 					<h1
-						className={`text-5xl md:text-7xl font-bold mb-5 ${pacifico.className}`}
+						className={`text-5xl md:text-9xl font-bold mb-5 ${bebasNeue.className}`}
 					>
 						Streaker
 					</h1>

@@ -15,10 +15,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
 	children,
-	streaks,
+	slots,
 }: {
 	children: React.ReactNode;
-	streaks: React.ReactNode;
+	slots: React.ReactNode;
 }) {
 	return (
 		<AppProvider>
@@ -26,12 +26,12 @@ export default function RootLayout({
 				<body className={inter.className}>
 					<Navbar />
 					<main>{children}</main>
+					{slots}
 					<ToastContainer />
-					{streaks}
+					<footer className="text-muted text-center mt-10 mb-5">
+						<span>Hazem Lenin @ 2024</span>
+					</footer>
 				</body>
-				<footer className="text-muted text-center">
-					<span>Hazem Lenin @ 2024</span>
-				</footer>
 			</html>
 		</AppProvider>
 	);

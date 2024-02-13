@@ -17,7 +17,7 @@ export default function Modal({
 
 	return (
 		<div
-			className="fixed h-screen w-screen bg-black/50 flex justify-center items-center"
+			className="fixed inset-0 h-screen w-screen bg-black/50 flex justify-center items-center"
 			ref={modal}
 			onClick={handleBackdropClick}
 		>

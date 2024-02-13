@@ -11,9 +11,9 @@ import {
 import { useSelector } from "react-redux";
 import { IRootState } from "../store";
 import { useEffect, useState } from "react";
-import { Pacifico } from "next/font/google";
+import { Bebas_Neue } from "next/font/google";
 
-const pacifico = Pacifico({ weight: ["400"], subsets: ["latin"] });
+const bebasNeue = Bebas_Neue({ weight: ["400"], subsets: ["latin"] });
 
 export default function Navbar() {
 	const tokens = useSelector((state: IRootState) => state.tokens);
@@ -24,7 +24,9 @@ export default function Navbar() {
 				<li>
 					<Link href="/" className="flex gap-2 items-center">
 						<img src={logo.src} className="w-10" />
-						<p className={`hidden md:inline ${pacifico.className}`}>Streaker</p>
+						<p className={`hidden md:inline ${bebasNeue.className}`}>
+							Streaker
+						</p>
 					</Link>
 				</li>
 				{!!tokens && (
