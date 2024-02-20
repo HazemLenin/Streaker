@@ -1,9 +1,12 @@
 "use client";
+import StreakComponent from "@/app/components/StreakComponent";
 import { useParams } from "next/navigation";
 
 export default function Streak() {
 	const params = useParams();
 	return (
-		<h1 className="text-4xl font-bold pt-24">Streak works! {params.id}</h1>
+		<div className="pt-24 px-2 md:px-20">
+			<StreakComponent id={params.id as string} />
+		</div>
 	);
 }
