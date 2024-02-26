@@ -77,5 +77,30 @@ namespace Streaker.DAL.Services.Streaks
             await _unitOfWork.SaveAsync();
 
         }
+        public async Task<List<int>> GetCurrentMonthStreak(string streakId)
+        {
+            var firstDayInMonth = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
+            var daysInMonth = DateTime.DaysInMonth(DateTime.UtcNow.Year, DateTime.UtcNow.Month);
+            var lastDayInMonth = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, daysInMonth);
+
+            var commits = await _unitOfWork.CommitsRepository
+                .GetAll(filter: c => c.StreakId == streakId && c.Created.Date > firstDayInMonth && c.Created.Date < lastDayInMonth)
+                .Select(c => c.Created.Day)
+                .ToListAsync();
+            return commits;
+        }
+
+        public async Task<Boolean> CommitedToday(string streakId) => await _unitOfWork.CommitsRepository.GetAll().AnyAsync(c => c.StreakId == streakId && c.Created.Date == DateTime.UtcNow.Date);
+    
+        public async Task CommitStreak(string streakId) {
+            if (!await _unitOfWork.CommitsRepository.GetAll().AnyAsync(c => c.StreakId == streakId && c.Created.Date == DateTime.UtcNow.Date))
+            {
+                await _unitOfWork.CommitsRepository.AddAsync(new()
+                {
+                    StreakId = streakId
+                });
+                await _unitOfWork.SaveAsync();
+            }
+        }
     }
 }
