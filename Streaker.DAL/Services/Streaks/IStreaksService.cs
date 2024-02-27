@@ -17,5 +17,8 @@ namespace Streaker.DAL.Services.Streaks
         Task<StreakDetailsDto> GetStreakDetailsAsync(string streakId);
         Task UpdateStreakAsync(string streakId, StreakUpdateDto streakUpdateDto);
         Task DeleteStreakAsync(string streakId);
+        Task<List<int>> GetCurrentMonthStreak(string streakId);
+        Task<Boolean> CommitedToday(string streakId);
+        Task CommitStreak(string streakId);
     }
 }

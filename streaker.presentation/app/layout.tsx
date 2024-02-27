@@ -15,20 +15,23 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
 	children,
+	slots,
 }: {
 	children: React.ReactNode;
+	slots: React.ReactNode;
 }) {
 	return (
 		<AppProvider>
 			<html lang="en">
 				<body className={inter.className}>
 					<Navbar />
-					<main className="pt-16">{children}</main>
+					<main>{children}</main>
+					{slots}
 					<ToastContainer />
+					<footer className="text-muted text-center mt-10 mb-5">
+						<span>Hazem Lenin @ 2024</span>
+					</footer>
 				</body>
-				<footer className="text-muted text-center">
-					<span>Hazem Lenin @ 2024</span>
-				</footer>
 			</html>
 		</AppProvider>
 	);

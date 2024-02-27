@@ -12,7 +12,7 @@ export default function Logout() {
 		router.push("/");
 	}, []);
 	return (
-		<div>
+		<div className="pt-24">
 			<h1 className="text-4xl font-bold text-center">Redirecting...</h1>
 			<p className="text-center">You are being redirected to the home page.</p>
 		</div>

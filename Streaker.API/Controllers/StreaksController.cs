@@ -59,28 +59,28 @@ namespace Streaker.API.Controllers
             };
         }
 
-        // PUT: api/Streaks/{id}
-        [HttpPut("{id}")]
-        public async Task<ActionResult> PutStreak(string id, StreakUpdateDto streakUpdateDto)
-        {
-            var streakExists = await _streaksService.CheckExistsAsync(id);
-            if (!streakExists)
-                return NotFound(new ApiResponse()
-                {
-                    Errors = new()
-                    {
-                        [""] = ["Streak cannot be found."]
-                    }
-                });
+        // // PUT: api/Streaks/{id}
+        // [HttpPut("{id}")]
+        // public async Task<ActionResult> PutStreak(string id, StreakUpdateDto streakUpdateDto)
+        // {
+        //     var streakExists = await _streaksService.CheckExistsAsync(id);
+        //     if (!streakExists)
+        //         return NotFound(new ApiResponse()
+        //         {
+        //             Errors = new()
+        //             {
+        //                 [""] = ["Streak cannot be found."]
+        //             }
+        //         });
 
-            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            var userCanAccess = await _streaksService.CheckUserAuthorityAsync(userId, id);
-            if (!userCanAccess)
-                return Forbid();
+        //     var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        //     var userCanAccess = await _streaksService.CheckUserAuthorityAsync(userId, id);
+        //     if (!userCanAccess)
+        //         return Forbid();
 
-            await _streaksService.UpdateStreakAsync(id, streakUpdateDto);
-            return Created();
-        }
+        //     await _streaksService.UpdateStreakAsync(id, streakUpdateDto);
+        //     return Created();
+        // }
 
         // DELETE: api/Streaks/{id}
         [HttpDelete("{id}")]
@@ -103,6 +103,58 @@ namespace Streaker.API.Controllers
 
             await _streaksService.DeleteStreakAsync(id);
             return NoContent();
+        }
+
+        // GET: api/Streaks/GetCurrentMonthStreak/{id}
+        [HttpGet("GetCurrentMonthStreak/{id}")]
+        public async Task<ActionResult<ApiResponse>> GetCurrentMonthStreak(string id)
+        {
+            var streakExists = await _streaksService.CheckExistsAsync(id);
+            if (!streakExists)
+                return NotFound(new ApiResponse()
+                {
+                    Errors = new()
+                    {
+                        [""] = ["Streak cannot be found."]
+                    }
+                });
+
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var userCanAccess = await _streaksService.CheckUserAuthorityAsync(userId, id);
+            if (!userCanAccess)
+                return Forbid();
+
+            var commits = await _streaksService.GetCurrentMonthStreak(id);
+            var commitedToday = await _streaksService.CommitedToday(id);
+
+            return Ok(new ApiResponse<StreakCalendarDto>(new()
+            {
+                Commits = commits,
+                CommitedToday = commitedToday
+            }));
+        }
+
+        // POST: /api/Streaks/CommitToday/{id}
+        [HttpPost("CommitToday/{id}")]
+        public async Task<ActionResult<ApiResponse>> CommitToday(string id)
+        {
+            var streakExists = await _streaksService.CheckExistsAsync(id);
+            if (!streakExists)
+                return NotFound(new ApiResponse()
+                {
+                    Errors = new()
+                    {
+                        [""] = ["Streak cannot be found."]
+                    }
+                });
+
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var userCanAccess = await _streaksService.CheckUserAuthorityAsync(userId, id);
+            if (!userCanAccess)
+                return Forbid();
+
+            _streaksService.CommitStreak(id);
+            return Ok();
         }
     }
 }

@@ -9,7 +9,10 @@ const config: Config = {
 	],
 	theme: {
 		colors: {
-			background: colors.slate["800"],
+			background: {
+				DEFAULT: colors.slate["800"],
+				light: colors.slate["700"],
+			},
 			primary: {
 				DEFAULT: colors.emerald["500"],
 				dark: colors.emerald["600"],

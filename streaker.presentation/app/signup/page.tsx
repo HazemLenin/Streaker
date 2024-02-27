@@ -68,7 +68,7 @@ export default function Page() {
 			});
 	}
 	return (
-		<div className="flex flex-col items-center gap-20 px-5 pt-10">
+		<div className="flex flex-col items-center gap-20 px-5 pt-24">
 			<form
 				className="form flex flex-col gap-10 items-center md:w-1/3"
 				onSubmit={handleSubmit}
